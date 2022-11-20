@@ -16,6 +16,8 @@ import {
 import SafeAreaWrapper from "./src/components/SafeAreaWrapper/SafeAreaWrapper";
 import MainNavigation from "./src/navigation/Nav/MainNavigation";
 import { GlobalColors } from "./src/infrastructure/GlobalColors";
+import store from './src/config/store';
+import {Provider} from 'react-redux';
 
 
 export default function App() {
@@ -37,11 +39,13 @@ export default function App() {
 
   return (
     <>
+    <Provider store={store}>
       <SafeAreaWrapper>
         <MainNavigation />
       </SafeAreaWrapper>
 
       <StatusBar backgroundColor={GlobalColors.bg} style="light" translucent={false} />
+      </Provider>
     </>
   );
 }

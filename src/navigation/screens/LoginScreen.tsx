@@ -12,14 +12,59 @@ import GlobalButton from "../../components/Button/GlobalButton";
 import GlobalBottomTexts from "../../components/BottomTexts/GlobalBottomTexts";
 import TextButton from "../../components/TextButton/TextButton";
 import { useNavigation } from "@react-navigation/native";
+import { auth, firestore } from '../../config/firebase.js';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {collection, query,where, onSnapshot,addDoc, updateDoc,doc, getDocs} from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { getAddress, getUser } from '../../config/userSlicer';
+import { TextInput } from "react-native-paper";
+
 
 const LoginScreen = () => {
   const navigation = useNavigation();
 
   const SCREEN_NAMES={
     register:'register',
-    reset:'reset'
+    reset:'reset',
+    Dashboard:'Dashboard'
   }
+  // const dispatch = useDispatch();
+  const [email,setEmail] = React.useState('');
+  const [password,setPassword] = React.useState('');
+  const [isLoading,setIsLoading] = React.useState(false);
+  const dispatch = useDispatch();
+
+
+  async function gotoHome() {
+    if(email&&password){
+      setIsLoading(true);
+      try{
+        const collectionRef = collection(firestore, 'users');
+        await signInWithEmailAndPassword(auth,email,password).then(async(result)=>{
+          let dataQuery = query(collectionRef, where("id", "==", result.user.uid));
+          let userData = await getDocs(dataQuery).then((snapshot)=>snapshot.docs.map(doc=>(doc.data())));
+          dispatch(getUser({userData}));
+          navigation.navigate('drawer');
+          setIsLoading(false);
+          console.log();
+          
+        })
+      }catch(e){
+        alert(e.message);
+        setIsLoading(false);
+      }
+      
+    }else{
+      alert('complete the login form');
+    }
+    
+  }
+
+
+
+  console.log(email);
+  console.log(password)
+
 
   return (
     <Wrapper>
@@ -36,7 +81,10 @@ const LoginScreen = () => {
 
           <GlobalInput
             config={{
+              value:email,
               placeholder: "Email",
+              onChangeText:(e)=>{setEmail(e)}
+              
             }}
             customStyle={styles.input}
             icon="email"
@@ -45,20 +93,22 @@ const LoginScreen = () => {
           <GlobalInput
             config={{
               placeholder: "Password",
+              onChangeText:(e)=>{setPassword(e)}
             }}
             customStyle={styles.input}
             secureTextEntry={true}
             icon="lock"
           />
+       
 
-          <TextButton onPress={()=>{navigation.navigate(`${SCREEN_NAMES.reset}`)}}/>
+          <TextButton onPress={()=>navigation.navigate(`${SCREEN_NAMES.reset}`)}/>
 
-          <GlobalButton title="sign in" style={styles.button} onPress={()=>navigation.navigate('drawer')}/>
+          <GlobalButton title="sign in" style={styles.button} onPress={gotoHome}/>
           
         </InputWrapper>
       </GlobalCard>
 
-      <GlobalBottomTexts text2="Sign Up" text="Don't have an account?" onPress={()=>navigation.navigate(`${SCREEN_NAMES.register}`)}/>
+       <GlobalBottomTexts text2="Sign Up" text="Don't have an account?" onPress={()=>navigation.navigate(`${SCREEN_NAMES.register}`)}/>
 
     </Wrapper>
   );

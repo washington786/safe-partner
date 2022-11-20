@@ -7,11 +7,20 @@ interface Input {
   customStyle?: Object;
   config: Object;
   secureTextEntry?: boolean;
-  icon: string; 
+  icon: string;
 }
 
 const GlobalInput = (props: Input) => {
-  return <TextInput {...props.config} style={props.customStyle} placeholderTextColor={GlobalColors.grey.l3} secureTextEntry={props.secureTextEntry} left={<TextInput.Icon name={props.icon}/>}/>;
+  return (
+    <TextInput
+      {...props.config}
+      style={props.customStyle}
+      placeholderTextColor={GlobalColors.grey.l3}
+      secureTextEntry={props.secureTextEntry}
+      left={<TextInput.Icon name={props.icon} 
+      />}
+    />
+  );
 };
 
 export default GlobalInput;

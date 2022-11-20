@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { GlobalColors } from '../../infrastructure/GlobalColors'
 interface wr{
-  style:object;
+  style?:object;
   children:any;
 }
 const Wrapper = (props: wr) => {

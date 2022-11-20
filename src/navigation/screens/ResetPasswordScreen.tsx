@@ -12,12 +12,17 @@ import { useNavigation } from "@react-navigation/native";
 import { GlobalColors } from "../../infrastructure/GlobalColors";
 import BackIconButton from "../../components/BackIconButton/BackIconButton";
 import GlobalModal from "../../components/GlobalModal/GlobalModal";
+import  {auth, firestore}  from '../../config/firebase';
+import { sendPasswordResetEmail,Auth } from "firebase/auth";
+
 
 import Icons from "react-native-vector-icons/Feather";
+import { FirebaseError } from "firebase/app";
 
 const ResetPasswordScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const [email,setEmail] = useState('');
+  console.log(email)
   const navigation = useNavigation();
 
   const SCREEN_NAMES = {
@@ -32,6 +37,27 @@ const ResetPasswordScreen = () => {
     navigation.navigate(`${SCREEN_NAMES.login}`);
     setModalVisible(!isModalVisible);
   };
+  async function resetPassword(){
+
+    if(email)
+    {
+      try{
+        await sendPasswordResetEmail(auth,email).then((results)=>{
+          setModalVisible(!isModalVisible);
+        })
+    }catch(e){
+        alert(e.message);
+    }
+  }else{
+    alert('complete the form')
+  }
+
+  }
+   
+ 
+  
+
+  
 
   return (
     <Wrapper>
@@ -54,6 +80,7 @@ const ResetPasswordScreen = () => {
           <GlobalInput
             config={{
               placeholder: "Email",
+              onChangeText:(e)=>{setEmail(e)},
             }}
             customStyle={styles.input}
             icon="email"
@@ -62,7 +89,7 @@ const ResetPasswordScreen = () => {
           <GlobalButton
             title="submit"
             style={styles.button}
-            onPress={onShowModal}
+            onPress={resetPassword}
           />
         </InputWrapper>
       </GlobalCard>
@@ -83,7 +110,7 @@ const ResetPasswordScreen = () => {
               style={styles.check}
             />
             <GlobalParagraph
-              paragraph="please reset link successfully sent to your email. Please check your email for more instructions."
+              paragraph="Reset link successfully sent to your email. Please check your email for more instructions."
               style={[styles.p, styles.pE]}
             />
             <View style={styles.mdBtn}>
