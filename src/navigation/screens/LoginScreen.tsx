@@ -15,8 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 import { auth, firestore } from '../../config/firebase.js';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {collection, query,where, onSnapshot,addDoc, updateDoc,doc, getDocs} from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
-import { getAddress, getUser } from '../../config/userSlicer';
+import { getAddress, getUser } from "../../config/userSlicer";
+import { useDispatch } from "react-redux";
 import { TextInput } from "react-native-paper";
 
 
@@ -41,9 +41,9 @@ const LoginScreen = () => {
       try{
         const collectionRef = collection(firestore, 'users');
         await signInWithEmailAndPassword(auth,email,password).then(async(result)=>{
-          let dataQuery = query(collectionRef, where("id", "==", result.user.uid));
-          let userData = await getDocs(dataQuery).then((snapshot)=>snapshot.docs.map(doc=>(doc.data())));
-          dispatch(getUser({userData}));
+          let dataQuery = query(collectionRef, where("userId", "==", result.user.uid));
+          let userData = await getDocs(dataQuery).then((snapshot)=>snapshot.docs.map(doc=>({...doc.data(),docId: doc.id})));
+              dispatch(getUser({userData}));
           navigation.navigate('drawer');
           setIsLoading(false);
           console.log();
