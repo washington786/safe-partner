@@ -1,10 +1,11 @@
 import React from "react";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Dashboard from "../screens/Dashboard";
-import Profile from "../screens/Profile";
+// import Profile from "../screens/Profile";
 import About from "../screens/About";
 import Help from "../screens/Help";
 import CustomDrawer from "../../components/CustomDrawer/CustomDrawer";
+import Profile from "../screens/ProfileJS";
 
 const Drawer = createDrawerNavigator();
 
