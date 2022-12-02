@@ -8,10 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import DrawerFAB from "../../components/DrawerFAB/DrawerFAB";
 import { DUMMY_DATA } from "../../data/DUMMY_DATA";
-import { Snackbar } from "react-native-paper";
+import { Provider, Snackbar } from "react-native-paper";
 
 import Icons from "react-native-vector-icons/Feather";
-import GlobalParagraph from "../../components/Texts/GlobalParagraph";
 import GlobalCaption from "../../components/Texts/GlobalCaption";
 
 const Dashboard = () => {
@@ -49,6 +48,15 @@ const Dashboard = () => {
     })();
   }, []);
 
+  // trigger opening of the snapshot
+  useEffect(() => {
+    if (longitude && latitude) {
+      setTimeout(() => {
+        onOpenSnack();
+      }, 30000);
+    }
+  }, [isSnackBarVisible]);
+
   return (
     <>
       <DrawerFAB onPress={onToggleDrawerMenu} />
@@ -73,7 +81,7 @@ const Dashboard = () => {
                 }}
               >
                 <Callout onPress={onOpenSnack}>
-                  <GlobalCaption caption={place.place}/>
+                  <GlobalCaption caption={place.place} />
                 </Callout>
               </Marker>
             </>
@@ -81,20 +89,27 @@ const Dashboard = () => {
         })}
       </MapView>
 
-      <Snackbar
-        style={styles.snack}
-        visible={isSnackBarVisible}
-        onDismiss={onOpenSnack}
-        duration={200000}
-        action={{
-          label: "X",
-          onPress: onOpenSnack,
-        }}
-      >
-        <Icons name="alert-triangle" size={16} color={GlobalColors.white} style={styles.icon}/>
-        please note this is an unsafe zone, you are advised to keep low profile.
-      </Snackbar>
-
+      <Provider>
+        <Snackbar
+          style={styles.snack}
+          visible={isSnackBarVisible}
+          onDismiss={onOpenSnack}
+          duration={200000}
+          action={{
+            label: "X",
+            onPress: onOpenSnack,
+          }}
+        >
+          <Icons
+            name="alert-triangle"
+            size={16}
+            color={GlobalColors.white}
+            style={styles.icon}
+          />
+          please note this is an unsafe zone, your application won't
+          authenticate until you are safe.
+        </Snackbar>
+      </Provider>
     </>
   );
 };
@@ -120,7 +135,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  icon:{
-    paddingHorizontal:5
-  }
+  icon: {
+    paddingHorizontal: 5,
+  },
 });

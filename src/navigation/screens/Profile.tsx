@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   avtBg: {
-    backgroundColor: GlobalColors.bg,
+    // backgroundColor: GlobalColors.bg,
     width:120,
     height:120,
     borderRadius:60
