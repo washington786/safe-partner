@@ -45,7 +45,7 @@ const RegisterScreen = () => {
                         imgUrl: 'https://firebasestorage.googleapis.com/v0/b/safe-partner.appspot.com/o/Avatar.png?alt=media&token=6bcc4c15-c26c-40c1-945c-f5484b75848a',
                         
                     }).then(()=>{
-                      navigation.navigate('drawer');
+                      navigation.navigate('auth');
                        
                     })
                 })
