@@ -14,8 +14,10 @@ import { auth, firestore,storage } from '../../config/firebase';
 import { useSelector } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 
-
 const Profile = () => {
+
+  const navigation = useNavigation();
+
   const {userData} = useSelector(state=>state.user);
   // 
   console.log(userData[0].firsstName);
