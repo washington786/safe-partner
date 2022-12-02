@@ -71,5 +71,41 @@ export const DUMMY_DATA=[
         place:'Bendo Ridge Mall',
         description:'The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.'
     },
+    {
+        id:9,
+        coords:{
+            latitude: -23.9011700,
+            longitude: 29.4580180,
+        },
+        place:'34 Rissik Street, Polokwane',
+        description:'The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.'
+    },
+    {
+        id:10,
+        coords:{
+            latitude: 23.9135,
+            longitude: 29.4513,
+        },
+        place:'Jackboats Parking, Polokwane',
+        description:'The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.'
+    },
+    {
+        id:11,
+        coords:{
+            latitude: -23.9034950,
+            longitude: 29.4462830,
+        },
+        place:'Bok Street, Polokwane',
+        description:'The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.'
+    },
+    {
+        id:12,
+        coords:{
+            latitude: 23.9004,
+            longitude: 29.4464,
+        },
+        place:'Indian Center, Polokwane',
+        description:'The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.'
+    },
 
 ]
