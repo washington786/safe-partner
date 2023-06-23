@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { GlobalColors } from "../../infrastructure/GlobalColors";
 
-import MapView, { Callout, Marker } from "react-native-maps";
+import MapView, { Callout, Circle, Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
 import * as Location from "expo-location";
@@ -12,6 +12,8 @@ import { Provider, Snackbar } from "react-native-paper";
 
 import Icons from "react-native-vector-icons/Feather";
 import GlobalCaption from "../../components/Texts/GlobalCaption";
+import CustomMapMarker from "../../components/CustomeMapMarker/CustomMapMarker";
+import IconMap from "../../components/CustomeMapMarker/IconMap";
 
 const Dashboard = () => {
   const navigation = useNavigation();
@@ -32,6 +34,16 @@ const Dashboard = () => {
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
 
+  // geo
+  const geofenceRegions = [
+    {
+      identifier: "unsafe spots",
+      latitude: latitude,
+      longitude: longitude,
+      radius: 100,
+    },
+  ];
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -45,6 +57,8 @@ const Dashboard = () => {
       var { latitude, longitude } = coords;
       setLatitude(latitude);
       setLongitude(longitude);
+
+      await Location.startGeofencingAsync("geofencingTask", geofenceRegions);
     })();
   }, []);
 
@@ -53,43 +67,57 @@ const Dashboard = () => {
     if (longitude && latitude) {
       setTimeout(() => {
         onOpenSnack();
-      }, 30000);
+      }, 50000);
     }
   }, [isSnackBarVisible]);
 
   return (
     <>
-      <DrawerFAB onPress={onToggleDrawerMenu} />
-      <MapView
-        style={styles.map}
-        region={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.09,
-          longitudeDelta: 0.029,
-        }}
-      >
-        {DUMMY_DATA.map((place) => {
-          return (
-            <>
-              <Marker
-                key={place.id}
-                title={place.place}
-                coordinate={{
-                  latitude: place.coords.latitude,
-                  longitude: place.coords.longitude,
-                }}
-              >
-                <Callout onPress={onOpenSnack}>
-                  <GlobalCaption caption={place.place} />
-                </Callout>
-              </Marker>
-            </>
-          );
-        })}
-      </MapView>
-
       <Provider>
+        <DrawerFAB onPress={onToggleDrawerMenu} />
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: 0.09,
+            longitudeDelta: 0.029,
+          }}
+        >
+          {DUMMY_DATA.map((place, index) => {
+            return (
+              <>
+                <Circle
+                  key={index}
+                  center={{
+                    latitude: place.coords.latitude,
+                    longitude: place.coords.longitude,
+                  }}
+                  radius={1000}
+                  strokeWidth={2}
+                  strokeColor="rgba(255, 0, 0, 0.5)"
+                  fillColor="rgba(255, 0, 0, 0.1)"
+                />
+                <CustomMapMarker
+                  key={place.id}
+                  coordinates={{
+                    latitude: place.coords.latitude,
+                    longitude: place.coords.longitude,
+                  }}
+                  onOpenSnack={onOpenSnack}
+                  place={place.place} id={0}                />
+              </>
+            );
+          })}
+
+          <Marker
+            coordinate={{ latitude: latitude, longitude: longitude }}
+            style={{ zIndex: 100 }}
+          >
+            <IconMap />
+          </Marker>
+        </MapView>
+
         <Snackbar
           style={styles.snack}
           visible={isSnackBarVisible}

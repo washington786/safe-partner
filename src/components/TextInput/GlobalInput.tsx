@@ -17,8 +17,8 @@ const GlobalInput = (props: Input) => {
       style={props.customStyle}
       placeholderTextColor={GlobalColors.grey.l3}
       secureTextEntry={props.secureTextEntry}
-      left={<TextInput.Icon name={props.icon} 
-      />}
+      left={<TextInput.Icon name={props.icon} />}
+      autoCapitalize="none"
     />
   );
 };
