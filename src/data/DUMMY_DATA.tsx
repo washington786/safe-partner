@@ -43,17 +43,7 @@ export const DUMMY_DATA = [
       "The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.",
       image:"https://reviewonline.co.za/wp-content/uploads/sites/68/2021/07/cbd.jpg"
   },
-  {
-    id: 8,
-    coords: {
-      latitude: -23.9007,
-      longitude: 29.48356,
-    },
-    place: "Bendo Ridge Mall",
-    description:
-      "The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.",
-      image:""
-  },
+  
   {
     id: 9,
     coords: {
@@ -65,26 +55,6 @@ export const DUMMY_DATA = [
       "The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.",
       image:"https://billboardfinder.co.za/wp-content/uploads/2022/08/55-rissik-street-johannesburg-gauteng.jpg"
   },
-  {
-    id: 10,
-    coords: {
-      latitude: 23.9135,
-      longitude: 29.4513,
-    },
-    place: "Limpopo Mall, Polokwane",
-    description:
-      "The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.",
-      image:"https://billboardfinder.co.za/wp-content/uploads/2022/08/kerk-street-polokwane-limpopo2.jpg"
-  },
-  {
-    id: 12,
-    coords: {
-      latitude: 23.9004,
-      longitude: 29.4464,
-    },
-    place: "Indian Center, Polokwane",
-    description:
-      "The stats of robbery are very high at this place, walk with caution in mind. Avoid walking by side way alone.",
-      image:"https://reviewonline.co.za/wp-content/uploads/sites/68/2015/05/MG_1081-Medium.jpg"
-  },
+  
+ 
 ];
