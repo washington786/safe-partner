@@ -3,7 +3,6 @@ import React from "react";
 
 import Icons from "react-native-vector-icons/Feather";
 import { Callout, Marker } from "react-native-maps";
-import GlobalCaption from "../Texts/GlobalCaption";
 import { Caption } from "react-native-paper";
 
 interface map {
